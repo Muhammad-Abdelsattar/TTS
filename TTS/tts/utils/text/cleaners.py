@@ -11,6 +11,7 @@ from .english.abbreviations import abbreviations_en
 from .english.number_norm import normalize_numbers as en_normalize_numbers
 from .english.time_norm import expand_time_english
 from .french.abbreviations import abbreviations_fr
+from .arabic.abbreviations import abbreviations_ar
 
 # Regular expression matching whitespace:
 _whitespace_re = re.compile(r"\s+")
@@ -21,6 +22,8 @@ def expand_abbreviations(text, lang="en"):
         _abbreviations = abbreviations_en
     elif lang == "fr":
         _abbreviations = abbreviations_fr
+    elif lang == "ar":
+        _abbreviations = abbreviations_ar
     for regex, replacement in _abbreviations:
         text = re.sub(regex, replacement, text)
     return text
@@ -97,6 +100,11 @@ def basic_german_cleaners(text):
     text = collapse_whitespace(text)
     return text
 
+def basic_arabic_cleaners(text):
+    """Pipeline for Arabic text"""
+    text = collapse_whitespace(text)
+    text = expand_abbreviations(text, lang="ar")
+    return text
 
 # TODO: elaborate it
 def basic_turkish_cleaners(text):
