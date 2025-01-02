@@ -104,6 +104,7 @@ def basic_arabic_cleaners(text):
     """Pipeline for Arabic text"""
     text = collapse_whitespace(text)
     text = expand_abbreviations(text, lang="ar")
+    text = text.replace("\n","")
     return text
 
 # TODO: elaborate it
