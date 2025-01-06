@@ -235,7 +235,7 @@ def arabic_single_speaker(root_path, meta_file, **kwargs):  # pylint: disable=un
 def arabic_single_speaker_test(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
     txt_file = os.path.join(root_path, meta_file)
     items = []
-    with open(txt_file, "r", encoding="utf-8") as ttf:
+    with open(txt_file, "r", encoding="utf-16") as ttf:
         speaker_id = 0
         for idx, line in enumerate(ttf):
             # 2 samples per speaker to avoid eval split issues
@@ -256,7 +256,7 @@ def thorsten(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
     txt_file = os.path.join(root_path, meta_file)
     items = []
     speaker_name = "thorsten"
-    with open(txt_file, "r", encoding="utf-8") as ttf:
+    with open(txt_file, "r", encoding="utf-16") as ttf:
         for line in ttf:
             cols = line.split("|")
             wav_file = os.path.join(root_path, "wavs", cols[0] + ".wav")
