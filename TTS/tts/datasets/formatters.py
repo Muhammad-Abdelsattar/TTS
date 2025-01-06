@@ -187,7 +187,6 @@ def mailabs(root_path, meta_files=None, ignored_speakers=None):
                     print("> File %s does not exist!" % (wav_file))
     return items
 
-
 def ljspeech(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
     """Normalizes the LJSpeech meta data file to TTS format
     https://keithito.com/LJ-Speech-Dataset/"""
@@ -201,7 +200,6 @@ def ljspeech(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
             text = cols[2]
             items.append({"text": text, "audio_file": wav_file, "speaker_name": speaker_name, "root_path": root_path})
     return items
-
 
 def ljspeech_test(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
     """Normalizes the LJSpeech meta data file for TTS testing
@@ -219,6 +217,35 @@ def ljspeech_test(root_path, meta_file, **kwargs):  # pylint: disable=unused-arg
             text = cols[2]
             items.append(
                 {"text": text, "audio_file": wav_file, "speaker_name": f"ljspeech-{speaker_id}", "root_path": root_path}
+            )
+    return items
+
+def arabic_single_speaker(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
+    txt_file = os.path.join(root_path, meta_file)
+    items = []
+    speaker_name = "Arabic_single_speaker"
+    with open(txt_file, "r", encoding="utf-8") as ttf:
+        for line in ttf:
+            cols = line.split("|")
+            wav_file = os.path.join(root_path, "wavs", cols[0] + ".wav")
+            text = cols[2]
+            items.append({"text": text, "audio_file": wav_file, "speaker_name": speaker_name, "root_path": root_path})
+    return items
+
+def arabic_single_speaker_test(root_path, meta_file, **kwargs):  # pylint: disable=unused-argument
+    txt_file = os.path.join(root_path, meta_file)
+    items = []
+    with open(txt_file, "r", encoding="utf-8") as ttf:
+        speaker_id = 0
+        for idx, line in enumerate(ttf):
+            # 2 samples per speaker to avoid eval split issues
+            if idx % 2 == 0:
+                speaker_id += 1
+            cols = line.split("|")
+            wav_file = os.path.join(root_path, "wavs", cols[0] + ".wav")
+            text = cols[2]
+            items.append(
+                {"text": text, "audio_file": wav_file, "speaker_name": f"arabic-{speaker_id}", "root_path": root_path}
             )
     return items
 
