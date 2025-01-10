@@ -59,17 +59,15 @@ class ArabicPhonemizer(BasePhonemizer):
     def name():
         return "ar_phonemizer"
 
-    def _phonemize(self, text: str, separator: str = "|") -> str:
+    def _phonemize(self, text: str) -> str:
         ph = arabic_to_buckwalter(text)
-        if separator is not None and separator != "":
-            return ph.replace(" ",separator)
         return ph
 
-    def phonemize(self, text: str, separator="|", language=None) -> str:
+    def phonemize(self, text: str) -> str:
         """
         Overrides the default method so that we don't do any pre or post processing.
         """
-        return self._phonemize(text, separator)
+        return self._phonemize(text)
 
     @staticmethod
     def supported_languages() -> Dict:
