@@ -64,6 +64,12 @@ def replace_symbols(text, lang="en"):
         Output:
             text: "si lavi cau, diguemho"
     """
+    if lang == "ar":
+        text = text.replace("،", ",")
+        text = text.replace("؛", ",")
+        text = text.replace("؟", "?")
+        text = text.replace(":", ",")
+        return text
     text = text.replace(";", ",")
     text = text.replace("-", " ") if lang != "ca" else text.replace("-", "")
     text = text.replace(":", ",")
@@ -102,9 +108,10 @@ def basic_german_cleaners(text):
 
 def basic_arabic_cleaners(text):
     """Pipeline for Arabic text"""
-    text = collapse_whitespace(text)
     text = expand_abbreviations(text, lang="ar")
-    text = text.replace("\n","")
+    text = replace_symbols(text,lang="ar")
+    text = remove_aux_symbols(text)
+    text = collapse_whitespace(text)
     return text
 
 # TODO: elaborate it
