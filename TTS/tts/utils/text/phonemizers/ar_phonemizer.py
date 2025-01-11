@@ -59,11 +59,11 @@ class ArabicPhonemizer(BasePhonemizer):
     def name():
         return "ar_phonemizer"
 
-    def _phonemize(self, text: str,separator:str="") -> str:
+    def _phonemize(self, text: str,separator:str="",language:str="ar") -> str:
         ph = arabic_to_buckwalter(text)
         return ph
 
-    def phonemize(self, text: str,separator:str="") -> str:
+    def phonemize(self, text: str,separator:str="",language:str="ar") -> str:
         """
         Overrides the default method so that we don't do any pre or post processing.
         """
