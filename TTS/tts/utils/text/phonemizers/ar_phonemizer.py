@@ -16,7 +16,7 @@ class ArabicPhonemizer(BasePhonemizer):
         return "ar_phonemizer"
 
     def _phonemize(self, text: str,separator:str="") -> str:
-        ph = phonemizer.phonemize(text)
+        ph = self.phonemizer.phonemize(text)
         return ph
 
     def phonemize(self, text: str,separator:str="",language:str="ar") -> str:
