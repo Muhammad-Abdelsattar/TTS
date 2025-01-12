@@ -2,6 +2,8 @@ from typing import Dict
 from arabic_phonemizer import ArabicPhonemizer as ARPhonemizer
 from TTS.tts.utils.text.phonemizers.base import BasePhonemizer
 
+phonemizer = ARPhonemizer()
+
 
 class ArabicPhonemizer(BasePhonemizer):
     
@@ -9,14 +11,13 @@ class ArabicPhonemizer(BasePhonemizer):
     
     def __init__(self,**kwargs):  # pylint: disable=unused-argument
         super().__init__(self.language)
-        self.phoenemizer = ARPhonemizer()
 
     @staticmethod
     def name():
         return "ar_phonemizer"
 
     def _phonemize(self, text: str,separator:str="") -> str:
-        ph = self.phonemizer.phonemize(text)
+        ph = phonemizer.phonemize(text)
         return ph
 
     def phonemize(self, text: str,separator:str="",language:str="ar") -> str:
