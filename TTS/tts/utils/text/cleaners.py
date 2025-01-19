@@ -49,12 +49,6 @@ def convert_to_ascii(text):
     return anyascii(text)
 
 
-def expand_abbreviations(text):
-    for regex, replacement in abbreviations_ar:
-        text = re.sub(regex, replacement, text)
-    return text
-
-
 def remove_aux_symbols(text):
     text = auxilary_symbols.sub("", text)
     return text
