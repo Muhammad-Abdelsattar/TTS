@@ -15,7 +15,19 @@ from .arabic.abbreviations import abbreviations_ar
 
 # Regular expression matching whitespace:
 _whitespace_re = re.compile(r"\s+")
-
+auxilary_symbols = re.compile(r"[\<\>\(\)\[\]\"]+")
+symbols_mapping = {
+    "،":",",
+    "؛":",",
+    ":":",",
+    "؟":"?",
+    "-":",",
+    "_":",",
+    "(":",",
+    "(":",",
+    "\"":",",
+    "\'":",",
+}
 
 def expand_abbreviations(text, lang="en"):
     if lang == "en":
@@ -33,16 +45,37 @@ def lowercase(text):
     return text.lower()
 
 
-def collapse_whitespace(text):
-    return re.sub(_whitespace_re, " ", text).strip()
-
-
 def convert_to_ascii(text):
     return anyascii(text)
 
 
+def expand_abbreviations(text):
+    for regex, replacement in abbreviations_ar:
+        text = re.sub(regex, replacement, text)
+    return text
+
+
 def remove_aux_symbols(text):
-    text = re.sub(r"[\<\>\(\)\[\]\"]+", "", text)
+    text = auxilary_symbols.sub("", text)
+    return text
+
+
+def replace_symbols_ar(text):
+    for symbol, replacement in symbols_mapping.items():
+        text = text.replace(symbol, replacement)
+    return text
+
+
+def collapse_whitespace(text):
+    return _whitespace_re.sub(" ", text).strip()
+
+#TODO: replace numbers, dates, and times.
+
+def clean_text(text):
+    text = expand_abbreviations(text)
+    text = replace_symbols(text)
+    text = remove_aux_symbols(text)
+    text = collapse_whitespace(text)
     return text
 
 
@@ -65,10 +98,7 @@ def replace_symbols(text, lang="en"):
             text: "si lavi cau, diguemho"
     """
     if lang == "ar":
-        text = text.replace("،", ",")
-        text = text.replace("؛", ",")
-        text = text.replace("؟", "?")
-        text = text.replace(":", ",")
+        text = replace_symbols_ar(text)
         return text
     text = text.replace(";", ",")
     text = text.replace("-", " ") if lang != "ca" else text.replace("-", "")
